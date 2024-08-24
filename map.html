@@ -1,442 +1,282 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-    }
-    #map {
-      height: 100vh;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-    .header {
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 50;
-      padding: 16px 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .title {
-      font-size: 2rem;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 2px;
-    }
-    .nav-item {
-      position: relative;
-      margin-left: 16px;
-    }
-    .nav-button {
-      color: #ffffff;
-      padding: 8px 16px;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    .nav-button:hover {
-      color: #gray-400;
-    }
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      background: #ffffff;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      z-index: 1001;
-    }
-    .dropdown-menu a {
-      display: block;
-      padding: 10px 20px;
-      color: #000;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .dropdown-menu a:hover {
-      background-color: #f0f0f0;
-    }
-    .nav-item:hover .dropdown-menu {
-      display: block;
-    }
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100px;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 50;
-      color: #ffffff;
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      transform: translateX(-100px);
-      transition: transform 0.3s ease;
-    }
-    .sidebar:hover {
-      transform: translateX(0);
-    }
-    .sidebar button {
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      margin: 15px 0;
-      cursor: pointer;
-      font-size: 18px;
-    }
-    .sidebar button:hover {
-      color: #cccccc;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 50;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 2px;
+        }
+
+        .nav-item {
+            position: relative;
+            margin-left: 16px;
+        }
+
+        .nav-button {
+            color: #ffffff;
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-button:hover {
+            color: #gray-400;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateX(-100px);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar:hover {
+            transform: translateX(0);
+        }
+
+        .sidebar button {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            margin: 15px 0;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .sidebar button:hover {
+            color: #cccccc;
+        }
+
+        /* Calendar styles */
+        .calendar-container {
+            margin-left: 16px;
+        }
+
+        #datepicker {
+            margin: 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animated search bar styles */
+        .search-container {
+            position: relative;
+            margin-left: 16px;
+        }
+
+        #searchBar {
+            width: 0;
+            padding: 8px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            background: white;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: width 0.4s ease;
+            overflow: hidden;
+        }
+
+        #searchButton {
+            position: absolute;
+            top: 0;
+            right: -45px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #searchButton img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .search-container:hover #searchBar {
+            width: 200px;
+            padding: 8px 16px;
+        }
+    </style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="title">The Third Place</div>
-    <nav class="flex">
-      <div class="nav-item dropdown">
-        <button class="nav-button">Events</button>
-        <div class="dropdown-menu">
-          <!-- Add your dropdown items here -->
-          <a href="#">Event 1</a>
-          <a href="#">Event 2</a>
-        </div>
-      </div>
-      <button class="nav-button">Events</button>
-      <a href=""
-      <div class="nav-item dropdown">
-        <button class="nav-button">Distance</button>
-        <div class="dropdown-menu">
-          <!-- Add your dropdown items here -->
-          <a href="#">Distance 1</a>
-          <a href="#">Distance 2</a>
-        </div>
-      </div>
-      <div class="nav-item dropdown">
-        <button class="nav-button">Filters</button>
-        <div class="dropdown-menu">
-          <!-- Add your dropdown items here -->
-          <a href="#">Filter 1</a>
-          <a href="#">Filter 2</a>
-        </div>
-      </div>
-      <div class="nav-item dropdown">
-        <button class="nav-button">Themes</button>
-        <div class="dropdown-menu">
-          <a href="#" id="defaultTheme">Default</a>
-          <a href="#" id="nightTheme">Night</a>
-          <a href="#" id="retroTheme">Retro</a>
-          <a href="#" id="futuristicTheme">Futuristic</a>
-        </div>
-      </div>
-    </nav>
-  </header>
+    <header class="header">
+        <div class="title">The Third Place</div>
+        <nav class="flex">
+            <div class="nav-item dropdown">
+                <button class="nav-button">Events</button>
+                <div class="dropdown-menu">
+                    <a href="#">Event 1</a>
+                    <a href="#">Event 2</a>
+                </div>
+            </div>
 
-  <div id="map"></div>
+            <div class="calendar-container">
+                <input type="date" id="datepicker">
+            </div>
 
-  <div class="sidebar">
-    <button id="zoomIn">+</button>
-    <button id="zoomOut">-</button>
-    <button id="mapType">Map</button>
-    <button id="fullscreen">Fullscreen</button>
-  </div>
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="Search...">
+                <button id="searchButton">
+                    <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png" alt="Search">
+                </button>
+            </div>
+        </nav>
+    </header>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApQ69Gof0vmLodUQVU0_ZzfR05Nj82OAQ"></script>
-  <script>
-    function initMap() {
-      const mapCenter = { lat: 38.4237, lng: 27.1428 };
+    <div id="map"></div>
 
-      const map = new google.maps.Map(document.getElementById('map'), {
-        center: mapCenter,
-        zoom: 14,
-        disableDefaultUI: true
-      });
+    <div class="sidebar">
+        <button id="zoomIn">+</button>
+        <button id="zoomOut">-</button>
+        <button id="mapType">Map</button>
+        <button id="fullscreen">Fullscreen</button>
+    </div>
 
-      const themes = {
-        default: [],
-        night: [
-          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-          {
-            featureType: "administrative.locality",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }]
-          },
-          {
-            featureType: "poi",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry",
-            stylers: [{ color: "#263c3f" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#6b9a76" }]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#38414e" }]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#212a37" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#9ca5b3" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry",
-            stylers: [{ color: "#746855" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#1f2835" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#f3d19c" }]
-          },
-          {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [{ color: "#2f3948" }]
-          },
-          {
-            featureType: "transit.station",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }]
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#17263c" }]
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#515c6d" }]
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#17263c" }]
-          }
-        ],
-        retro: [
-          { elementType: "geometry", stylers: [{ color: "#ebe3cd" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#523735" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#f5f1e6" }] },
-          {
-            featureType: "administrative",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#c9b2a6" }]
-          },
-          {
-            featureType: "administrative.land_parcel",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#dcd2be" }]
-          },
-          {
-            featureType: "administrative.land_parcel",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#ae9e90" }]
-          },
-          {
-            featureType: "landscape.natural",
-            elementType: "geometry",
-            stylers: [{ color: "#dfd2ae" }]
-          },
-          {
-            featureType: "poi",
-            elementType: "geometry",
-            stylers: [{ color: "#dfd2ae" }]
-          },
-          {
-            featureType: "poi",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#93817c" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry.fill",
-            stylers: [{ color: "#a5b076" }]
-          },
-          {
-            featureType: "poi.park",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#447530" }]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#f5f1e6" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#5b5b5b" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#f5f1e6" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry",
-            stylers: [{ color: "#fdfcf8" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#5b5b5b" }]
-          },
-          {
-            featureType: "road.highway",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#f5f1e6" }]
-          },
-          {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [{ color: "#f2f2f2" }]
-          },
-          {
-            featureType: "transit.station",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#e9e9e9" }]
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#c9c9c9" }]
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#5e5e5e" }]
-          }
-        ],
-        futuristic: [
-          { elementType: "geometry", stylers: [{ color: "#000000" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#ffffff" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#000000" }] },
-          {
-            featureType: "administrative",
-            elementType: "geometry",
-            stylers: [{ color: "#ffffff" }]
-          },
-          {
-            featureType: "landscape",
-            elementType: "geometry",
-            stylers: [{ color: "#333333" }]
-          },
-          {
-            featureType: "poi",
-            elementType: "geometry",
-            stylers: [{ color: "#333333" }]
-          },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#000000" }]
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#ffffff" }]
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#000000" }]
-          }
-        ]
-      };
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyApQ69Gof0vmLodUQVU0_ZzfR05Nj82OAQ"></script>
+    <script>
+        function initMap() {
+            const mapCenter = { lat: 38.4237, lng: 27.1428 };
 
-      function setMapTheme(theme) {
-        map.setOptions({ styles: themes[theme] || [] });
-      }
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          function(position) {
-            const userLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            map.setCenter(userLocation);
-            const marker = new google.maps.Marker({
-              position: userLocation,
-              map: map,
-              title: "You are here!",
-              icon: {
-                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                scaledSize: new google.maps.Size(50, 50),
-                labelOrigin: new google.maps.Point(25, 25)
-              },
-
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: mapCenter,
+                zoom: 14,
+                disableDefaultUI: true
             });
 
-            function toggleBounce() {
-              marker.setAnimation(google.maps.Animation.BOUNCE);
-              setTimeout(() => {
-                marker.setAnimation(null);
-              }, 5000); // Stop bouncing after 5 seconds
+            const themes = {
+                default: [],
+                night: [/* night mode styles here */],
+                retro: [/* retro mode styles here */],
+                futuristic: [/* futuristic mode styles here */]
+            };
+
+            function setMapTheme(theme) {
+                map.setOptions({ styles: themes[theme] || [] });
             }
 
-            // Start the bounce animation every 8 seconds (5 seconds bounce + 3 seconds pause)
-            toggleBounce(); // Initial bounce
-            setInterval(toggleBounce, 8000);
-          },
-          function(error) {
-            console.error('Error occurred. Error code: ' + error.code);
-            handleLocationError(true, map.getCenter());
-          }
-        );
-      } else {
-        handleLocationError(false, map.getCenter());
-      }
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        map.setCenter(userLocation);
+                        const marker = new google.maps.Marker({
+                            position: userLocation,
+                            map: map,
+                            title: "You are here!",
+                            icon: {
+                                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                                scaledSize: new google.maps.Size(50, 50),
+                                labelOrigin: new google.maps.Point(25, 25)
+                            },
+                        });
 
-      document.getElementById('defaultTheme').addEventListener('click', () => setMapTheme('default'));
-      document.getElementById('nightTheme').addEventListener('click', () => setMapTheme('night'));
-      document.getElementById('retroTheme').addEventListener('click', () => setMapTheme('retro'));
-      document.getElementById('futuristicTheme').addEventListener('click', () => setMapTheme('futuristic'));
-    }
-    
+                        function toggleBounce() {
+                            marker.setAnimation(google.maps.Animation.BOUNCE);
+                            setTimeout(() => {
+                                marker.setAnimation(null);
+                            }, 5000);
+                        }
 
-    window.onload = initMap;
-  </script>
+                        toggleBounce();
+                        setInterval(toggleBounce, 8000);
+                    },
+                    function (error) {
+                        console.error('Error occurred. Error code: ' + error.code);
+                    }
+                );
+            }
+
+            document.getElementById('defaultTheme').addEventListener('click', () => setMapTheme('default'));
+            document.getElementById('nightTheme').addEventListener('click', () => setMapTheme('night'));
+            document.getElementById('retroTheme').addEventListener('click', () => setMapTheme('retro'));
+            document.getElementById('futuristicTheme').addEventListener('click', () => setMapTheme('futuristic'));
+        }
+
+        window.onload = initMap;
+    </script>
 </body>
+
 </html>
