@@ -12,20 +12,18 @@ def eventbrite_find_events() -> dict:
     """
     output_dict = {}
 
-    # event_types = {
-    #     "music": "https://www.eventbrite.com.au/b/local/music",
-    #     "nightlife": "https://www.eventbrite.com.au/b/local/nightlife",
-    #     "arts": "https://www.eventbrite.com.au/b/local/arts",
-    #     "holiday": "https://www.eventbrite.com.au/b/local/holiday",
-    #     "dating": "https://www.eventbrite.com.au/b/local/home-and-lifestyle/dating",
-    #     "hobbies": "https://www.eventbrite.com.au/b/local/hobbies",
-    #     "business": "https://www.eventbrite.com.au/b/local/business",
-    #     "food-and-drink": "https://www.eventbrite.com.au/b/local/food-and-drink"
-    # }
-
     event_types = {
-        "music": "https://www.eventbrite.com.au/b/local/music"
+        "music": "https://www.eventbrite.com.au/b/local/music",
+        "nightlife": "https://www.eventbrite.com.au/b/local/nightlife",
+        "arts": "https://www.eventbrite.com.au/b/local/arts",
+        "holiday": "https://www.eventbrite.com.au/b/local/holiday",
+        "dating": "https://www.eventbrite.com.au/b/local/home-and-lifestyle/dating",
+        "hobbies": "https://www.eventbrite.com.au/b/local/hobbies",
+        "business": "https://www.eventbrite.com.au/b/local/business",
+        "food-and-drink": "https://www.eventbrite.com.au/b/local/food-and-drink"
     }
+
+ 
 
     event_type_names = list(event_types.keys())
 
@@ -208,9 +206,8 @@ def convert_to_json(page_info: list):
 def main():
     # scraping off eventbrite
     eventbrite_urls = eventbrite_find_events()
-    # event_types = ['music', 'nightlife', 'arts', 'holiday', 'dating',
-    #                'home-and-garden', 'hobbies', 'business', 'food-and-drink']
-    event_types = ['music']
+    event_types = ['music', 'nightlife', 'arts', 'holiday', 'dating',
+                     'hobbies', 'business', 'food-and-drink']
 
     eventbrite_event_info = {}
 
@@ -218,10 +215,7 @@ def main():
         event_info_ls = eventbrite_strip_event_info(eventbrite_urls[event_type])
         eventbrite_event_info[event_type] = event_info_ls
 
-    # scraping off second website
-    # ...
 
-    # converting to json file
     website_ls = [eventbrite_event_info]
     convert_to_json(website_ls)
 
